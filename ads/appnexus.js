@@ -15,6 +15,7 @@
  */
 
 import {loadScript, writeScript, validateData} from '../3p/3p';
+import {setStyles} from '../src/style';
 
 const APPNEXUS_AST_URL = 'https://acdn.adnxs.com/ast/ast.js';
 
@@ -102,8 +103,20 @@ function appnexusAst(global, data) {
   }
 
   apntag.anq.push(() => {
+    apntag.onEvent('adAvailable', data.target, (res) => {
+      // Center the ad in the container.
+      var container = global.document.querySelector('#c');
+      setStyles(container, {
+        top: '50%',
+        left: '50%',
+        bottom: '',
+        right: '',
+        transform: 'translate(-50%, -50%)'
+      });
+      global.context.renderStart({width: res.width, height: res.height});
+    });
     if (!apntag.initialRequestMade) {
-      apntag.onEvent('adAvailable', data.target, () => {
+      apntag.onEvent('adAvailable', data.target, (res) => {
         apntag.showTag(data.target, global.window);
       });
     } else {
