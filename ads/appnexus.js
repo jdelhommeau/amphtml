@@ -93,6 +93,13 @@ function appnexusAst(global, data) {
   const divContainer = global.document.getElementById('c');
   if (divContainer) {
     divContainer.appendChild(div);
+    setStyles(divContainer, {
+        top: '50%',
+        left: '50%',
+        bottom: '',
+        right: '',
+        transform: 'translate(-50%, -50%)'
+      });
   }
 
   if (!apntag) {
@@ -104,15 +111,6 @@ function appnexusAst(global, data) {
 
   apntag.anq.push(() => {
     apntag.onEvent('adAvailable', data.target, (res) => {
-      // Center the ad in the container.
-      var container = global.document.querySelector('#c');
-      setStyles(container, {
-        top: '50%',
-        left: '50%',
-        bottom: '',
-        right: '',
-        transform: 'translate(-50%, -50%)'
-      });
       global.context.renderStart({width: res.width, height: res.height});
     });
     if (!apntag.initialRequestMade) {
